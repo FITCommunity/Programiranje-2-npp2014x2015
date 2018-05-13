@@ -216,10 +216,10 @@ int main()
  
     
     tie(oznakaR, oznakaK) = GetPozicijuUReduIKoloni("15B");
-    cout << crt << "GetPozicijuUReduIKoloni(15B) ->" << oznakaR << "/" << oznakaK << endl;//ispisuje 14/1
+    cout << crt << "GetPozicijuUReduIKoloni(15B) ->" << oznakaR << "/" << oznakaK << endl;
  
     tie(oznakaR, oznakaK) = GetPozicijuUReduIKoloni("01B");
-    cout << crt << "GetPozicijuUReduIKoloni(01B) ->" << oznakaR << "/" << oznakaK << crt;//ispisuje 0/1
+    cout << crt << "GetPozicijuUReduIKoloni(01B) ->" << oznakaR << "/" << oznakaK << crt;
 
  
     if (DodajPutnika(mostar_sarajevo, GetNovogPutnika("01A", "Denis Music")))
