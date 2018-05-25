@@ -234,7 +234,7 @@ int main()
     char * p = SlobodnoSjediste(mostar_sarajevo);
 
     if (p != nullptr)
-        cout << crt << "Sljedece slobodno sjediste -> " << *p << crt;
+        cout << crt << "Sljedece slobodno sjediste -> " << p << crt;
     else
         cout << crt << "Sva sjedista su zauzeta!" << crt;
 
