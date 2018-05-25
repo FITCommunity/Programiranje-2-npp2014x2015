@@ -1,5 +1,3 @@
-//Rjesiti Dodatno 2: Generisanje sljedeceg slobodnog mjesta
-
 #include <iostream>
 #include <cstring>
 #include <tuple>
