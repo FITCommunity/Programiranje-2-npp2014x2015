@@ -134,36 +134,38 @@ bool ZauzetoMjesto(const Let & let, const int i, const int j, const int pozicija
            GetPozicijuUReduIKoloni(let._putnici[pozicija]._oznakaSjedista).second == j;
 }
 
-//char * SlobodnoSjediste(const Let & let) ovo nije koristeno da nebi doslo do curenja memorije
-Putnik SlobodnoSjediste(const Let & let)
+char * SlobodnoSjediste(const Let & let)
 {
-    Putnik temp{ " ", " " };
+    char * slobodno = new char[4];
+
+    if (let._trenutnoPutnika == let._brojKolonaUAvionu * let._brojRedovaUAvionu) return nullptr;
+
     for (int i = 0; i < let._brojRedovaUAvionu; i++)
     {
         for (int j = 0; j < let._brojKolonaUAvionu; j++)
         {
-            bool slobodno = true;
+            bool slobodnoMjesto = true;
             for (int k = 0; k < let._trenutnoPutnika; k++)
             {
                 if (ZauzetoMjesto(let, i, j, k))
                 {
-                    slobodno = false;
+                    slobodnoMjesto = false;
                     break;
                 }
             } 
 
-            if (slobodno)
+            if (slobodnoMjesto)
             {
-                temp._oznakaSjedista[0] = i / 10 + '0'; 
-                temp._oznakaSjedista[1] = i % 10 + 1 + '0';
-                temp._oznakaSjedista[2] = j + 'A';
-                temp._oznakaSjedista[3] = '\0';
-                return temp;
+                slobodno[0] = i / 10 + '0'; 
+                slobodno[1] = i % 10 + 1 + '0';
+                slobodno[2] = j + 'A';
+                slobodno[3] = '\0';
+                return slobodno;
             }
         }    
     }
 
-    return temp;
+
 }
 
 void PrikaziRasporedSjedenja(const Let & let)
@@ -187,15 +189,14 @@ void PrikaziRasporedSjedenja(const Let & let)
                     {
                         if (ZauzetoMjesto(let, i, j, m))
                         {
-                            cout << right << setw(sirina + 1) << let._putnici[m]._imePrezime << left;
+                            cout << setw(sirina + 1) << let._putnici[m]._imePrezime;
                             zauzeto = true;
                             break;
                         }
                     }
 
-                    if (!zauzeto)
-                        for (int n = 0; n < sirina + 1; n++)
-                            cout << " ";
+                    if (!zauzeto) cout << setw(sirina + 1) << " ";
+                        
                     j++;
                     l += sirina;
                 }
@@ -232,10 +233,14 @@ int main()
          << rekBrojacKaraktera(mostar_sarajevo, mostar_sarajevo._trenutnoPutnika, 0)
          << crt;
 
-    if (mostar_sarajevo._trenutnoPutnika != mostar_sarajevo._brojKolonaUAvionu * mostar_sarajevo._brojRedovaUAvionu)
-        cout << crt << "Sljedece slobodno sjediste -> " << SlobodnoSjediste(mostar_sarajevo)._oznakaSjedista << crt;
+    char * p = SlobodnoSjediste(mostar_sarajevo);
+
+    if (p != nullptr)
+        cout << crt << "Sljedece slobodno sjediste -> " << *p << crt;
     else
         cout << crt << "Sva sjedista su zauzeta!" << crt;
+
+    delete[] p; p = nullptr;
 
     Dealociraj(mostar_sarajevo);
 
