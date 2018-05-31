@@ -1,0 +1,38 @@
+/*
+Napisati program koji æe, na osnovu odabranih komandi, omoguæiti pomijeranje kocke unutar definisanog okvira.Prilikom pravljenja programa voditi raèuna o sljedeæem :
+1. Program treba izgledati kao na narednoj slici
+2. Poèetna velièina matrice je 20 x 20, a poèetna velièina kocke je 2
+3. Velièina matrice se poveæava sa poveæavanjem kocke(komanda P)
+4. Velièina kocke ne smije biti manja od 1
+5. Komande za pomijeranje kocke su :
+/ Lijevo - L / Desno - R / Gore - U / Dole - D / Povecaj - P / Smanji - S /
+6. Komande mogu biti unesene velikim ili malim slovima
+7. Kocka ne smije izaæi iz definisanog okvira.U sluèaju da korisnik 3 puta dotakne okvir igra se prekida.
+8. Voditi raèuna o pravilnoj alokaciji i dealokaciji memorije
+*/
+
+#include <iostream>
+
+using namespace std;
+
+struct Kocka 
+{
+    int lokacijaX;
+    int lokacijaY;
+    int velicina;
+};
+
+void main() 
+{
+    char ** matrica = nullptr;
+    Kocka kocka;
+    char komanda;
+    do
+    {
+        cout << "/Lijevo - L/Desno - R/Gore - U/Dole - D/" << endl;
+        cout << "/Povecaj - P/ Smanji - S/" << endl;
+        cout << "Komanda -> ";
+        cin >> komanda;
+        system("cls");
+    } while (1);
+}
