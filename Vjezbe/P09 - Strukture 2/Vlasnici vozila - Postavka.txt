@@ -1,0 +1,270 @@
+/*
+#include <iostream>
+
+using namespace std;
+
+char crt[] = "\n======================================================\n";
+
+struct vozilo 
+{
+    char regOznaka[10];
+    char * vlasnik;
+    char markaTip[20];
+    int godinaProizvodnje;
+
+    void prikazi();
+    void unos();
+    void dealociraj();
+};
+
+void vozilo::prikazi() 
+{
+    cout << crt << "\t\t::ISPIS PODATAKA::";
+    cout << crt << "Registarska oznaka: \t\t" << regOznaka;
+    cout << "\nIme i prezime vlasnika: \t" << vlasnik;
+    cout << "\nMarka i tip vozila: \t\t" << markaTip;
+    cout << "\nGodina proizvodnje: \t\t" << godinaProizvodnje << crt;
+}
+
+void vozilo::unos() 
+{
+    char temp[30];
+    cout << crt << "\t\t::UNOS PODATAKA::" << crt;
+    cout << "Registarska oznaka vozila: ";
+    cin.getline(regOznaka, 10);
+    cout << "Ime i prezime vlasnika: ";
+    cin.getline(temp, 30);
+    int velicina = strlen(temp) + 1;
+    vlasnik = new char[velicina];
+    strcpy_s(vlasnik, velicina, temp);
+    cout << "Marka i tip vozila: ";
+    cin.getline(markaTip, 20);
+    cout << "Godina proizvodnje: ";
+    cin >> godinaProizvodnje;
+    cin.ignore();
+}
+void vozilo::dealociraj() 
+{
+    delete[] vlasnik;
+    vlasnik = nullptr;
+}
+
+int prikaziMeni() 
+{
+    int izbor = 1;
+    do 
+    {
+        cout << crt << "\t\t::MENI::" << crt;
+        cout << "1.Unos novih podataka o vozilu." << endl;
+        cout << "2.Prikazi listu unesenih podataka." << endl;
+        cout << "3.Pretraga po registarskoj oznaci." << endl;
+        cout << "4.Pretraga po vlasniku vozila(PUNO IME I PREZIME)." << endl;
+        cout << "5.Pretraga po vlasniku vozila(IME ILI PREZIME)." << endl;
+        cout << "6.Napravi izmjene na podacima." << endl;
+        cout << "7.Kraj rada." << crt;
+        cout << "Unesite vas izbor: ";
+        cin >> izbor;
+        cin.ignore();
+        system("cls");
+    } while (izbor<1 || izbor>7);
+    return izbor;
+}
+//1. Programu dodajte funkcionalnost automatskog povecanja niza u kome
+//su smjesteni podaci o vozilu
+void unosNovihPodataka(vozilo * niz, int &uneseno, int max)
+{
+    if (uneseno < max)
+    {//ako je broj unesenih podataka manji od max
+        niz[uneseno].unos();//unesi nove podatke o vozilu
+        uneseno++;//evidentiraj da su dodati novi podaci
+    }
+    else
+        cout << crt << "Nije moguce upisati nove podatke o vozilu!" << crt;
+}
+//funkcija koja ispisuje listu svih unesenih podataka 
+int prikaziListuPodataka(vozilo * niz, int uneseno) 
+{
+    int izbor = 0;
+    do 
+    {
+        cout << crt << "RB.\tIme i prezime\tReg.oznaka" << crt;
+        for (int i = 0; i<uneseno; i++)
+            cout << i + 1 << ".\t" << niz[i].vlasnik << "\t" << niz[i].regOznaka << endl;
+
+        cout << crt << "Unesite RB vozila(0-Izlaz):";
+        cin >> izbor;
+        cin.ignore();
+        if (izbor == 0) return 0; //ako korisnik odabere 0, prekida se izvršenje funkcije
+        
+    } while (izbor < 1 || izbor > uneseno); //petlja se izvršava sve dok korisnik ne unese jedan od ponuðenih rednih brojeva
+    return izbor;
+}
+void prikaziPodatkeDetaljno(vozilo * niz, int uneseno) 
+{
+    //u varijablu izbor pohranjujemo redni broj vozila èije podatke ispisujemo
+    //redni broj vozila nam vraæa funkcija prikaziListuPodataka
+    int izbor = prikaziListuPodataka(niz, uneseno);
+    if (izbor != 0)//ako korisnik nije odabrao 0-Izlaz
+        niz[izbor - 1].prikazi();//ispiši podatke o vozilu koje je odabrao korisnik
+}
+void pretragaPoRegOznaci(vozilo * niz, int uneseno)
+{
+    char temp[10];//privremeni niz za èuvanje reg oznake po kojoj pretražujemo
+    bool pronadjeno = false;//èuva podatak o tome da li je pronaðeno traženo vozilo
+    cout << crt << "Unesite reg.oznaku koju trazite: ";
+    cin.getline(temp, 10);
+    for (int i = 0; i < uneseno; i++) 
+    {
+        //ako bilo koje od unesnih podataka ima traženu reg oznaku
+        //funkcija strcmp() vraæa 0 ukoliko su dva niza jednaka
+        if (strcmp(niz[i].regOznaka, temp) == 0)
+        {
+            //ispiši podatke o vozilu
+            niz[i].prikazi();
+            //oznaèi da je traženo vozilo pronaðeno
+            pronadjeno = true;
+        }
+    }
+
+    if (pronadjeno == false)
+        cout << crt << "Trazeni podaci ne postoje u bazi!" << crt;
+}
+//da li bi se funkcije pretragaPoVlasniku i pretragaPoVlasnikuImeIliPrezime  mogle
+//spojiti u jednu?
+void pretragaPoVlasniku(vozilo * niz, int uneseno) 
+{
+    char temp[40];
+    bool pronadjen = false;
+    cout << crt << "Unesite ime i prezime vlasnika: ";
+    cin.getline(temp, 40);
+    for (int i = 0; i<uneseno; i++) 
+    {
+        if (strcmp(niz[i].vlasnik, temp) == 0) 
+        {
+            niz[i].prikazi();
+            pronadjen = true;
+        }
+    }
+    if (pronadjen == false)
+        cout << crt << "Trazeni podaci ne postoje u bazi!" << crt;
+}
+void pretragaPoVlasnikuImeILIPrezime(vozilo * niz, int uneseno)
+{
+    char temp[40];
+    bool pronadjen = false;
+    cout << crt << "Unesite ime i prezime vlasnika: ";
+    cin.getline(temp, 40);
+    for (int i = 0; i<uneseno; i++)
+    {
+        if (strstr(niz[i].vlasnik, temp) != 0) 
+        {
+            niz[i].prikazi();
+            pronadjen = true;
+        }
+    }
+    if (pronadjen == false)
+        cout << crt << "Trazeni podaci ne postoje u bazi!" << crt;
+}
+//da li smatrate da bi ovu funkciju trebalo implementirati na drugi nacin
+//pitanje je vezano za alokaciju/dealokaciju memorije
+void izmjeneNaPodacima(vozilo * niz, int uneseno)
+{
+    int izbor = prikaziListuPodataka(niz, uneseno);
+    if (izbor != 0)
+        niz[izbor - 1].unos();
+}
+//zasto smo koristili *&
+void Alokacija(vozilo *& niz, int & max) {
+    do 
+    {
+        cout << "Za koliko vozila unosite podatke: ";
+        cin >> max;
+        cin.ignore();
+    } while (max <= 0);
+    niz = new vozilo[max];
+}
+//da li u funkciji Dealokacija moramo koristiti *&
+//i koje su prednosti/nedostaci njenog koristenja?
+void Dealokacija(vozilo *& niz, int uneseno)
+{
+    for (int i = 0; i<uneseno; i++)
+        niz[i].dealociraj();
+    delete[] niz;
+    niz = nullptr;
+}
+void main()
+{
+    int max = 0;//èuva broj vozila za koje unosimo podatke
+    int izbor = 0;//èuva vrijednost koju vrati funkcija meni
+    int uneseno = 0;//èuva broj unesenih podataka o vozilima
+    vozilo * niz = nullptr;//pokazivaè na niz vozila
+    Alokacija(niz, max);
+    system("cls");//oèisti sadržaj komandnog prozora 
+    do 
+    {
+        cout << crt << "\t\t::EVIDENCIJA VOZILA::" << crt;
+        izbor = prikaziMeni();
+        switch (izbor) 
+        {
+            case 1:
+                unosNovihPodataka(niz, uneseno, max); break;
+            case 2:
+                prikaziPodatkeDetaljno(niz, uneseno); break;
+            case 3:
+                pretragaPoRegOznaci(niz, uneseno); break;
+            case 4:
+                pretragaPoVlasniku(niz, uneseno); break;
+            case 5:
+                pretragaPoVlasnikuImeILIPrezime(niz, uneseno); break;
+            case 6:
+                izmjeneNaPodacima(niz, uneseno); break;
+        }
+    } while (izbor < 7);
+    Dealokacija(niz, uneseno);
+    system("pause");
+}
+*/
+/*
+  Funkcionalnost prethodnog programa pokušajte implementirati sa sljedeæim strukturama. 
+  Takoðer, pokušajte dodati nove funkcionalnosti koje se odnose na pretragu po: 
+  vrsti vozila, datumu važenja registracije, JMBG vlasnika i sl.
+*/
+/*
+enum VrstaVozila {PUTNICKO, TERETNO};
+struct Datum
+{
+    int _dan, _mjesec, _godina;
+    void Unos();
+    void Prikazi();
+};
+
+struct Vozilo
+{
+    char _regOznaka[10];
+    char * _markaTip;
+    int _godinaProizvodnje;
+    Datum _registrovanDO; //objekat druge strukture
+    VrstaVozila  _vrsta; //enumeracija
+    void Unos();
+    void Prikazi();
+    void Dealociraj();
+};
+
+struct Vlasnik
+{
+    char * _imePrezime;
+    char _JMBG[14];
+    Datum _datumRodjenja; //objekat druge strukture
+    //niz od 10 pokazivaca na objekte tipa Vozilo
+    Vozilo * _vozila[10];//predpostavimo da po zakonu vlasnik ne smije imati vise
+    //od 10 vozila
+    int _brojacVozila; //brojac nam govori koliko vozila vlasnik posjeduje
+    void Unos();
+    void Prikazi();
+    void DodajVozilo();//dodaje podatke o novom vozilu,onemoguciti dupliranje
+    void UkloniVozilo();//uklanja vozilo sa liste
+    Vozilo * GetVozilo(char * regOznaka);//vraca pokazivac na vozilo koje ima
+    //trazenu registarsku oznaku. Ukoliko vozilo ne postoji, funkcija vraca nullptr
+    void Dealociraj();
+};
+*/
