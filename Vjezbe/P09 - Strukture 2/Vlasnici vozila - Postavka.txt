@@ -255,16 +255,16 @@ struct Vlasnik
     char * _imePrezime;
     char _JMBG[14];
     Datum _datumRodjenja; //objekat druge strukture
-    //niz od 10 pokazivaca na objekte tipa Vozilo
-    Vozilo * _vozila[10];//predpostavimo da po zakonu vlasnik ne smije imati vise
+    //niz od 10 pokazivaèa na objekte tipa Vozilo
+    Vozilo * _vozila[10];//predpostavimo da po zakonu vlasnik ne smije imati više
     //od 10 vozila
-    int _brojacVozila; //brojac nam govori koliko vozila vlasnik posjeduje
+    int _brojacVozila; //brojaè nam govori koliko vozila vlasnik posjeduje
     void Unos();
     void Prikazi();
-    void DodajVozilo();//dodaje podatke o novom vozilu,onemoguciti dupliranje
+    void DodajVozilo();//dodaje podatke o novom vozilu,onemoguæiti dupliranje
     void UkloniVozilo();//uklanja vozilo sa liste
-    Vozilo * GetVozilo(char * regOznaka);//vraca pokazivac na vozilo koje ima
-    //trazenu registarsku oznaku. Ukoliko vozilo ne postoji, funkcija vraca nullptr
+    Vozilo * GetVozilo(char * regOznaka);//vraæa pokazivaè na vozilo koje ima
+    //trazenu registarsku oznaku. Ukoliko vozilo ne postoji, funkcija vraæa nullptr
     void Dealociraj();
 };
 */

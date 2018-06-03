@@ -29,24 +29,25 @@ struct Vlasnik
 {
     char * _imePrezime;
     char _JMBG[14];
-    Datum _datumRodjenja; 
+    Datum _datumRodjenja;
     Vozilo * _vozila[10];
-    int _brojacVozila; 
+    int _brojacVozila;
     void Unos();
     void Prikazi();
-    void DodajVozilo();//dodaje podatke o novom vozilu,onemoguciti dupliranje
-    void UkloniVozilo();//uklanja vozilo sa liste
+    void DodajVozilo();
+    void UkloniVozilo();
     Vozilo * GetVozilo(char * regOznaka);
     void Dealociraj();
 };
 
+// ------------------------------------ Vozilo ------------------------------------ //
 
-void Vozilo::Prikazi() 
+void Vozilo::Prikazi()
 {
     char * vrstaVozila[] = { "PUTNICKO", "TERETNO" };
     int i = int(_vrsta);
 
-    cout << crt << "\t\t::ISPIS PODATAKA::";
+    cout << crt << "\t\t::ISPIS PODATAKA VOZILA::";
     cout << crt << "Registarska oznaka: \t\t" << _regOznaka;
     cout << "\nMarka i tip vozila: \t\t" << _markaTip;
     cout << "\nGodina proizvodnje: \t\t" << _godinaProizvodnje;
@@ -54,10 +55,10 @@ void Vozilo::Prikazi()
     cout << "\nVrsta vozila: \t\t\t" << vrstaVozila[i] << crt;
 }
 
-void Vozilo::Unos() 
+void Vozilo::Unos()
 {
     cout << crt << "\t\t::UNOS PODATAKA::" << crt;
-    
+
     cout << "Registarska oznaka vozila: ";
     cin.getline(_regOznaka, 10);
 
@@ -78,16 +79,19 @@ void Vozilo::Unos()
     int izbor = 0;
     while (cout << "Vrsta vozila: 0 za putnicko, 1 za teretno: ", cin >> izbor, izbor < 0 && izbor > 1);
     _vrsta = (VrstaVozila)izbor;
-    
-    cin.ignore();
-    
-} 
 
-void Vozilo::Dealociraj() 
+    cin.ignore();
+
+}
+
+void Vozilo::Dealociraj()
 {
     delete[] _markaTip;
     _markaTip = nullptr;
 }
+
+// ------------------------------------ Vozilo ------------------------------------ //
+// ----------------------------------- Vlasnik ------------------------------------ //
 
 void Vlasnik::Unos()
 {
@@ -121,7 +125,7 @@ void Vlasnik::Unos()
         cin >> izbor;
         cin.ignore();
 
-        
+
         if (izbor == 1)
         {
             if (_brojacVozila == 10)
@@ -136,7 +140,7 @@ void Vlasnik::Unos()
             else
                 UkloniVozilo();
         }
-       
+
 
     } while (izbor != 3);
 
@@ -156,34 +160,38 @@ void Vlasnik::Prikazi()
 
 void Vlasnik::Dealociraj()
 {
-    delete[] _imePrezime; 
-    _imePrezime = nullptr;
+    delete[] _imePrezime; _imePrezime = nullptr;
+    for (int i = 0; i < _brojacVozila; i++)
+    {
+        delete _vozila[i];
+        _vozila[i] = nullptr;
+    }
 }
 
 void Vlasnik::DodajVozilo()
 {
-    Vozilo temp;
-    temp.Unos();
+    _vozila[_brojacVozila] = new Vozilo;
+    _vozila[_brojacVozila]->Unos();
 
-    if (GetVozilo(temp._regOznaka) != nullptr)
+    if (GetVozilo(_vozila[_brojacVozila]->_regOznaka) != nullptr)
     {
         cout << "Vozilo sa tom registracijom vec postoji" << endl;
+        delete _vozila[_brojacVozila]; _vozila[_brojacVozila] = nullptr;
         return;
     }
     else
     {
-        _vozila[_brojacVozila] = &temp;
         _brojacVozila++;
     }
-    
+
 }
 
 void Vlasnik::UkloniVozilo()
 {
-    /*for (int i = 0; i < _brojacVozila; i++)
+    for (int i = 0; i < _brojacVozila; i++)
         _vozila[i]->Prikazi();
     cout << endl;
-    */
+    
     char regOznaka[10];
     cout << "Unesite registarsku oznaku vozila: ";
     cin.getline(regOznaka, 10);
@@ -215,34 +223,35 @@ void Vlasnik::UkloniVozilo()
 Vozilo * Vlasnik::GetVozilo(char * regOznaka)
 {
     for (int i = 0; i < _brojacVozila; i++)
-        if(_vozila[i]->_regOznaka != nullptr)
+        if (_vozila[i]->_regOznaka != nullptr)
             if (strcmp(_vozila[i]->_regOznaka, regOznaka) == 0)
                 return _vozila[i];
 
     return nullptr;
 }
 
-int prikaziMeni() 
+// ----------------------------------- Vlasnik ------------------------------------ //
+
+int prikaziMeni()
 {
     int izbor = 1;
-    do 
+    do
     {
         cout << crt << "\t\t::MENI::" << crt;
         cout << "1.Unos novih podataka o vlasniku." << endl;
         cout << "2.Prikazi listu unesenih podataka." << endl;
         cout << "3.Pretraga po registarskoj oznaci." << endl;
-        cout << "4.Pretraga po vlasniku vozila(PUNO IME I PREZIME)." << endl;
-        cout << "5.Pretraga po vlasniku vozila(IME ILI PREZIME)." << endl;
-        cout << "6.Pretraga po JMBG vlasnika vozila." << endl;
-        cout << "7.Pretraga po vrsti vozila." << endl;
-        cout << "8.Pretraga po datumu vazenja registracije." << endl;
-        cout << "9.Napravi izmjene na podacima." << endl;
-        cout << "10.Kraj rada." << crt;
+        cout << "4.Pretraga po vlasniku vozila." << endl;
+        cout << "5.Pretraga po JMBG vlasnika vozila." << endl;
+        cout << "6.Pretraga po vrsti vozila." << endl;
+        cout << "7.Pretraga po datumu vazenja registracije." << endl;
+        cout << "8.Napravi izmjene na podacima." << endl;
+        cout << "9.Kraj rada." << crt;
         cout << "Unesite vas izbor: ";
         cin >> izbor;
         cin.ignore();
         system("cls");
-    } while (izbor < 1 || izbor > 10);
+    } while (izbor < 1 || izbor > 9);
     return izbor;
 }
 
@@ -258,10 +267,10 @@ void unosNovihPodataka(Vlasnik * niz, int &uneseno, int max)
 }
 
 //funkcija koja ispisuje listu svih unesenih podataka 
-int prikaziListuPodataka(Vlasnik * niz, int uneseno) 
+int prikaziListuPodataka(Vlasnik * niz, int uneseno)
 {
     int izbor = 0;
-    do 
+    do
     {
         cout << crt << "RB.\tIme i prezime\tJMBG\t\tBroj Vozila" << crt;
         for (int i = 0; i < uneseno; i++)
@@ -271,22 +280,24 @@ int prikaziListuPodataka(Vlasnik * niz, int uneseno)
         cin >> izbor;
         cin.ignore();
         if (izbor == 0) return 0;
-        
+
     } while (izbor < 1 || izbor > uneseno);
     return izbor;
 }
-void prikaziPodatkeDetaljno(Vlasnik * niz, int uneseno) 
+void prikaziPodatkeDetaljno(Vlasnik * niz, int uneseno)
 {
     int izbor = prikaziListuPodataka(niz, uneseno);
     if (izbor != 0) niz[izbor - 1].Prikazi();
 }
+
+// ----------------------------------- Pretraga ------------------------------------ //
 void pretragaPoRegOznaci(Vlasnik * niz, int uneseno)
 {
     char temp[10];
     bool pronadjeno = false;
     cout << crt << "Unesite reg.oznaku koju trazite: ";
     cin.getline(temp, 10);
-    for (int i = 0; i < uneseno; i++) 
+    for (int i = 0; i < uneseno; i++)
     {
         for (int j = 0; j < niz[i]._brojacVozila; j++)
         {
@@ -301,26 +312,8 @@ void pretragaPoRegOznaci(Vlasnik * niz, int uneseno)
     if (pronadjeno == false)
         cout << crt << "Trazeni podaci ne postoje u bazi!" << crt;
 }
-//da li bi se funkcije pretragaPoVlasniku i pretragaPoVlasnikuImeIliPrezime  mogle
-//spojiti u jednu?
-void pretragaPoVlasniku(Vlasnik * niz, int uneseno) 
-{
-    char temp[40];
-    bool pronadjen = false;
-    cout << crt << "Unesite ime i prezime vlasnika: ";
-    cin.getline(temp, 40);
-    for (int i = 0; i < uneseno; i++) 
-    {
-        if (strcmp(niz[i]._imePrezime, temp) == 0) 
-        {
-            niz[i].Prikazi();
-            pronadjen = true;
-        }
-    }
-    if (pronadjen == false)
-        cout << crt << "Trazeni podaci ne postoje u bazi!" << crt;
-}
-void pretragaPoVlasnikuImeILIPrezime(Vlasnik * niz, int uneseno)
+
+void pretragaPoVlasniku(Vlasnik * niz, int uneseno)
 {
     char temp[40];
     bool pronadjen = false;
@@ -328,7 +321,7 @@ void pretragaPoVlasnikuImeILIPrezime(Vlasnik * niz, int uneseno)
     cin.getline(temp, 40);
     for (int i = 0; i<uneseno; i++)
     {
-        if (strstr(niz[i]._imePrezime, temp) != 0) 
+        if (strstr(niz[i]._imePrezime, temp) != 0)
         {
             niz[i].Prikazi();
             pronadjen = true;
@@ -337,6 +330,7 @@ void pretragaPoVlasnikuImeILIPrezime(Vlasnik * niz, int uneseno)
     if (pronadjen == false)
         cout << crt << "Trazeni podaci ne postoje u bazi!" << crt;
 }
+
 void pretragaPoJMBGVlasnika(Vlasnik * niz, int uneseno)
 {
     char temp[14];
@@ -352,7 +346,7 @@ void pretragaPoJMBGVlasnika(Vlasnik * niz, int uneseno)
                 niz[i].Prikazi();
                 pronadjen = true;
             }
-        } 
+        }
     }
     if (pronadjen == false)
         cout << crt << "Trazeni podaci ne postoje u bazi!" << crt;
@@ -374,7 +368,7 @@ void pretragaPoDatumuRegistracije(Vlasnik * niz, int uneseno)
                 niz[i]._vozila[j]->Prikazi();
                 pronadjen = true;
             }
-                
+
         }
     }
     if (pronadjen == false)
@@ -402,6 +396,7 @@ void pretragaPoVrstiVozila(Vlasnik * niz, int uneseno)
         cout << crt << "Trazeni podaci ne postoje u bazi!" << crt;
 }
 
+// ----------------------------------- Pretraga ------------------------------------ //
 
 void izmjeneNaPodacima(Vlasnik * niz, int uneseno)
 {
@@ -409,9 +404,9 @@ void izmjeneNaPodacima(Vlasnik * niz, int uneseno)
     if (izbor != 0) niz[izbor - 1].Unos();
 }
 
-void Alokacija(Vlasnik *& niz, int & max) 
+void Alokacija(Vlasnik *& niz, int & max)
 {
-    do 
+    do
     {
         cout << "Za koliko vlasnika unosite podatke: ";
         cin >> max;
@@ -436,32 +431,30 @@ void main()
     Alokacija(niz, max);
 
     system("cls");
-    do 
+    do
     {
         cout << crt << "\t\t::EVIDENCIJA VLASNIKA::" << crt;
         izbor = prikaziMeni();
-        switch (izbor) 
+        switch (izbor)
         {
-            case 1:
-                unosNovihPodataka(niz, uneseno, max); break;
-            case 2:
-                prikaziPodatkeDetaljno(niz, uneseno); break;
-            case 3:
-                pretragaPoRegOznaci(niz, uneseno); break;
-            case 4:
-                pretragaPoVlasniku(niz, uneseno); break;
-            case 5:
-                pretragaPoVlasnikuImeILIPrezime(niz, uneseno); break;
-            case 6:
-                pretragaPoJMBGVlasnika(niz, uneseno); break;
-            case 7:
-                pretragaPoVrstiVozila(niz, uneseno); break;
-            case 8:
-                pretragaPoDatumuRegistracije(niz, uneseno); break;
-            case 9:
-                izmjeneNaPodacima(niz, uneseno); break;
+        case 1:
+            unosNovihPodataka(niz, uneseno, max); break;
+        case 2:
+            prikaziPodatkeDetaljno(niz, uneseno); break;
+        case 3:
+            pretragaPoRegOznaci(niz, uneseno); break;
+        case 4:
+            pretragaPoVlasniku(niz, uneseno); break;
+        case 5:
+            pretragaPoJMBGVlasnika(niz, uneseno); break;
+        case 6:
+            pretragaPoVrstiVozila(niz, uneseno); break;
+        case 7:
+            pretragaPoDatumuRegistracije(niz, uneseno); break;
+        case 8:
+            izmjeneNaPodacima(niz, uneseno); break;
         }
-    } while (izbor < 10);
+    } while (izbor < 9);
     Dealokacija(niz, uneseno);
     system("pause");
 }
