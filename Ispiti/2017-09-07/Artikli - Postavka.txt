@@ -1,0 +1,158 @@
+1. ZADATAK  
+ 
+Izvršiti definiciju funkcija na naèin koji odgovara opisu (komentarima) datom neposredno uz pozive ili nazive funkcija. Možete dati komentar na bilo koju liniju code-a koju smatrate da bi trebalo unaprijediti ili da æe eventualno uzrokovati grešku prilikom kompajliranja. Takoðer, možete dodati dodatne funkcije koje æe vam olakšati implementaciju programa.
+ 
+#include <iostream>
+using namespace std;
+ 
+/*
+1. BROJ I VRSTA PARAMETARA MORAJU BITI IDENTICNI KAO U PRIMJERIMA. U SUPROTNOM SE RAD NEÆE BODOVATI
+2. STAVITE KOMENTAR NA DIJELOVE CODE-A KOJE NE BUDETE IMPLEMENTIRALI
+3. KREIRAJTE .DOC FAJL SA VAŠIM BROJEM INDEKSA ( NPR. IB160061.DOC BEZ IMENA I PREZIMENA), TE NA KRAJU ISPITA U NJEGA KOPIRAJTE RJEŠENJA VAŠIH ZADATAKA. NE PREDAVATI .TXT ILI .CPP FAJLOVE
+4. TOKOM IZRADE ISPITA NIJE DOZVOLJENO KORIŠTENJE HELP-A
+5. TOKOM IZRADE ISPITA MOGU BITI POKRENUTA SAMO TRI PROGRAMA: PDF READER (ISPITNI ZADACI), MS VISUAL STUDIO, MS WORD (U KOJI ÆETE KOPIRATI VAŠA RJEŠENJA)
+6. BEZ OBZIRA NA TO DA LI SU ISPITNI ZADACI URAÐENI, SVI STUDENTI KOJI SU PRISTUPILI ISPITU MORAJU PREDATI SVOJ RAD
+*/
+//narednu liniju code-a ignorisite, osim u slucaju da vam bude predstavljala smetnje u radu
+#pragma warning(disable:4996)
+ 
+/*
+u nastavku je prikazan primjer fakture(raèuna) sa njenim stavkama, pri cemu je zanemaren porez
+-------------------------------------------
+Datum: 07.09.2017
+-------------------------------------------
+FAKTURA/RAÈUN
+-------------------------------------------
+RB   Naziv      Kol. Cij.     Iznos
+1.Cokolada      10   1,5     15 BAM
+2.Coca-Cola     2    1,2     2,4BAM
+3.Cigarete      1    4,5     4,5BAM (Storno)
+-------------------------------------------
+UKUPNO:                      17,4BAM
+-------------------------------------------
+*/
+char * crt = "\n-------------------------------------------\n";
+struct Datum {
+    int _dan;
+    int _mjesec;
+    int _godina;
+    void Unos(int d, int m, int g) {
+        _dan = d;
+        _mjesec = m;
+        _godina = g;
+    }
+    void Ispis() {
+        cout << _dan << "." << _mjesec << "." << _godina << " ";
+    }
+};
+struct Proizvod {
+    char _naziv[20];
+    float _cijena;
+    float _stanjeSkladista;//svaki proizvod ce cuvati informaciju o tome koliko je trenutno stanje tog proizvoda na skladistu
+ 
+    void Unos(char* naziv, float cijena) {
+        strcpy_s(_naziv, naziv);
+        _cijena = cijena;
+        _stanjeSkladista = 0;
+    }
+    void DodajUSkladiste(float kolicina) {
+        _stanjeSkladista += kolicina;
+    }
+    void UkloniSaSkladista(float kolicina) {
+        _stanjeSkladista -= kolicina;
+    }
+    void Ispis() {
+        cout << _naziv << ", cijena: " << _cijena << "KM, stanje: " << _stanjeSkladista << " " << endl;
+    }
+};
+ 
+struct StavkaFakture {
+    float _kolicina;
+    Proizvod* _proizvod; //_proizvod æe pokazivati na adresu objekata tipa proizvod koja se nalaze u Market-u, pa nije potrebno vršiti nove alokacije
+    bool _stornirana;
+    void Unos(Proizvod* proizvod, float kolicina) {
+        _kolicina = kolicina;
+        _proizvod = proizvod;
+        _stornirana = false;
+    }
+    float GetIznos() {
+        return _kolicina * _proizvod->_cijena;
+    }
+    void Ispis() {
+        cout << _proizvod->_naziv << "\t" << _kolicina << "\t" << _proizvod->_cijena << "\t" << GetIznos() << "BAM";
+        if (_stornirana)
+            cout << " Storno";
+        cout << endl;
+    }
+};
+struct Faktura {
+    Datum _datum;
+    StavkaFakture ** _stavke;//svaki put se dodaje po jedna stavka
+    int _brojStavki;
+    void Unos(Datum datum) {
+        _datum = datum;
+        _brojStavki = 0;
+        _stavke = nullptr;
+    }
+ 
+/*iznos fakture izracunati koristeci lambda funkciju koja se poziva putem objekta
+tipa auto. u iznos fakture ne racunati stornirane stavke*/
+    float GetIznosSuma()
+    {
+ 
+    }
+};
+const int Max = 100;
+ 
+/*unutar objekta tipa Market ce se cuvati svi dostupni proizvodi i sve fakture koje se dodaju putem globalnih funkcija */
+struct Market {
+//umjesto brojaca koristite default.ne vrijednosti
+    Proizvod* Proizvodi[Max] = { NULL };
+    Faktura* Fakture[Max] = { NULL };
+ 
+    void Dealociraj() {
+        for (size_t i = 0; i < Max; i++) {
+            delete Proizvodi[i]; Proizvodi[i] = NULL;
+        }
+        for (size_t i = 0; i < Max; i++) {
+            delete Fakture[i]; Fakture[i] = NULL;
+        }
+    }
+};
+ 
+void main() {
+ 
+    Market market;
+ 
+    /*dodaje podatke o novom proizvodu u market */
+    //market, naziv, cijena, i kolicina
+    dodaj_proizvod(market, "Mlijeko (L)", 1.45, 50);
+    dodaj_proizvod(market, "Mlijeko (L)", 1.45, 5);//ne dodaje novi proizvod vec postojecem samo povecava kolicinu
+    dodaj_proizvod(market, "Jabuke (kg)", 1.25, 80.4);
+    dodaj_proizvod(market, "Lubenica (kg)", 0.45, 189);
+ 
+    //market, datum
+    kreiraj_fakturu(market, 6, 9, 2017);
+ 
+/*dodaje stavku na posljednje kreiranu fakturu, a kolicina prve stavke (proizvoda) je 3. prilikom dodavanja stavke, njenu kolicinu na skladistu umanjiti za kolicinu stavke. onemoguciti    dodavanje proizvoda u slucaju da na skladistu
+ne postoji unesena kolicina  proizvoda. u slucaju da je nova stavka vec dodana, na fakturi je potrebno samo uvecati njenu kolicinu (npr. ako se Cokolada x 2 nalaze na fakturi, a nakon toga se doda jos Cokolada x 1   onda se na fakturi treba nalaziti samo jedna stavka Cokolada sa kolicinom 3).u slucaju da je nova stavka vec ranije dodana, ali je stornirana, onda je potrebno omoguciti dodavanje nove stavke a tom prilikom zadrzati i storniranu(u prethodnom   primjeru, ako je stavka Cokolada x 2 stornirana, te se ponovo pokusa dodati stavka Cokolada x 1, onda ce na fakturi biti obe stavke istog proizvoda pri cemu je jedna stornirana a druga nije)*/
+    dodaj_stavku_fakture(market, "Mlijeko (L)", 3);
+    dodaj_stavku_fakture(market, "Mlijeko (L)", 2);//na fakturi, stavka Mlijeko bi sada trebala imati kolicinu 5, a na skladistu (55 - 5 = 50)
+    dodaj_stavku_fakture(market, "Lubenica (kg)", 5);
+ 
+    kreiraj_fakturu(market, 7, 9, 2017);
+    dodaj_stavku_fakture(market, "Jabuke (kg)", 5);//naredne stavke se dodaju na novu fakturu
+    dodaj_stavku_fakture(market, "Lubenica (kg)", 3);
+ 
+/*stornira sve stavke fakture koje u nazivu sadrze vrijednost parametra npr. "Lub". u slucaju storniranja stavke (posto se uklanja sa fakture), uvecati (vratiti na stanje prije kupovine tj. dodavanja proizvoda) stanje na skladistu konkretnog proizvoda za vrijednost _kolicina*/
+    if (storniraj_stavku(market, "Lub"))
+        cout << "Stavka uspjesno stornirana!" << endl;
+    if (!storniraj_stavku(market, "TEST"))
+        cout << "Trazena stavka ne postoji na fakturi!" << endl;
+ 
+/*funkcija printaj prikazuje posljednju fakturu u formatu prikazanom na pocetku zadatka. pored prikazivanja, identican sadrzaj fakture je potrebno sacuvati unutar tekstualnog fajla koji ce biti imenovan sa vasBrojIndeksa.txt npr. IB150051.txt. prikaz i spasavanje fakture se nece desiti u slucaju da faktura ne
+posjeduje niti jednu stavku ili su sve stavke stornirane*/
+    if (printaj(market))
+        cout << "Faktura uspjesno prikazana i sacuvana!" << endl;
+    market.Dealociraj();
+}
