@@ -176,11 +176,6 @@ void dodaj_stavku_fakture(Market & market, char * naziv, float kolicina)
 
             if (dodaj)
             {
-                StavkaFakture ** temp = market.Fakture[i]->_stavke;
-                market.Fakture[i]->_stavke = new StavkaFakture*[market.Fakture[i]->_brojStavki + 1];
-                for (int j = 0; j < market.Fakture[i]->_brojStavki; j++)
-                    market.Fakture[i]->_stavke[j] = temp[j];
-
                 for (int k = 0; k < Max; k++)
                 {
                     if (market.Proizvodi[k] != NULL)
@@ -190,6 +185,11 @@ void dodaj_stavku_fakture(Market & market, char * naziv, float kolicina)
 
                         if (proizvodUBazi && odgovarajucaKolicina)
                         {
+                            StavkaFakture ** temp = market.Fakture[i]->_stavke;
+                            market.Fakture[i]->_stavke = new StavkaFakture*[market.Fakture[i]->_brojStavki + 1];
+                            for (int j = 0; j < market.Fakture[i]->_brojStavki; j++)
+                                market.Fakture[i]->_stavke[j] = temp[j];
+
                             market.Fakture[i]->_stavke[market.Fakture[i]->_brojStavki] = new StavkaFakture;
                             market.Fakture[i]->_stavke[market.Fakture[i]->_brojStavki]->Unos(market.Proizvodi[k], kolicina);
                             market.Fakture[i]->_brojStavki++;
@@ -248,7 +248,15 @@ char * FormirajImeFajla()
 
 void upisi(ofstream & upis, Faktura * faktura)
 {
-    upis << crt << "Datum: " << faktura->_datum._dan << "." << faktura->_datum._mjesec << "." << faktura->_datum._godina
+    upis << crt << "Datum: ";
+    if (faktura->_datum._dan < 10) upis << "0" << faktura->_datum._dan;
+    else upis << faktura->_datum._dan;
+    upis << ".";
+
+    if (faktura->_datum._mjesec < 10) upis << "0" << faktura->_datum._mjesec;
+    else upis << faktura->_datum._mjesec;
+
+    upis << "." << faktura->_datum._godina
          << crt << "FAKTURE / RACUN" << crt
          << "RB Naziv\tKol.\tCij.\tIznos" << endl;
 
