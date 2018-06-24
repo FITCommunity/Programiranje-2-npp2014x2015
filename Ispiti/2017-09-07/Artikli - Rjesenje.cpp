@@ -308,6 +308,8 @@ bool printaj(const Market & market)
                         while (ispis.get(znak))
                             cout << znak;
                         ispis.close();
+			
+			delete[] naziv; naziv = nullptr;
                         return true;
                     }
                 }

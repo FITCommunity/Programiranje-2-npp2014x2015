@@ -336,11 +336,10 @@ bool printaj(const Fakultet & fakultet)
                     while (ispis.get(znak))
                         cout << znak;
                     ispis.close();
+                    
+		    delete[] nazivFajla; nazivFajla = nullptr;
                     return true;
-                }
-
-                delete[] nazivFajla; nazivFajla = nullptr;
-                return true;
+                }      
             }
         }
     }
