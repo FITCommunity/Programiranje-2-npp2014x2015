@@ -129,7 +129,7 @@ bool KaratePojas::DodajIzvrsenuAktivnost(Aktivnost * aktivnost)
         /*Identicna aktivnost se moze dodati jedino u slucaju kada je prethodna (identivna aktivnost po vrsti i datumu izvrsenja)
         imala ocjenu manju od 6.
         Nije uradeno jer nema smisla da datumi budu jednaki i da se doda aktivnost ako je prethodna manja od 6 a da se
-        kasnije bez obzira na ocjenu dodaje aktivnost bez obzira na ocjenu samo ako je proslo 15 dana */
+        kasnije bez obzira na ocjenu dodaje aktivnost samo ako je proslo 15 dana od prethodne aktivnosti identicne vrste*/
         if (*_listaIzvrsenihAktivnosti[i]._vrsta == *aktivnost->_vrsta)
         {
             if (aktivnost->_datumIzvrsenja.DatumUDane() - _listaIzvrsenihAktivnosti[i]._datumIzvrsenja.DatumUDane() >= 15)
