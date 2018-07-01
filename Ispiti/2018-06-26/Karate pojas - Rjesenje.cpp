@@ -20,7 +20,7 @@ struct Datum
     }
     void Ispis() { cout << *_dan << "/" << *_mjesec << "/" << *_godina << endl; }
     void Dealociraj() { delete _dan; delete _mjesec; delete _godina; }
-    int DatumUDane() { return *_godina * 365 + *_mjesec * 30 + *_dan; _dan = _mjesec = _godina = nullptr; }
+    int DatumUDane() { return *_godina * 365 + *_mjesec * 30 + *_dan;}
 };
 
 struct Aktivnost
