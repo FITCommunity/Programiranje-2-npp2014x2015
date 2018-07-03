@@ -121,17 +121,20 @@ struct Kandidat
 
 bool VozackaKategorija::DodajIzvrsenuAktivnost(VrstaAktivnosti vrsta, Datum * datumPolaganja, int ocjena, const char * napomena)
 {
-    /*Na osnovu vrijednosti primljenog parametra osigurati dodavanje novoizvrsene aktivnosti za potrebe stjecanja
-    odredjene vozacke kategorije. Broj aktivnosti nije ogranicen.
-    Identicna aktivnost se moze dodati jedino u slucaju kada je prethodna (identivna aktivnost po vrsti i datumu izvrsenja)
-    imala ocjenu manju od 3.
-    Uspjesnom aktivnoscu se smatraju one aktivnosti koje imaju ocjenu vecu od 2, a svaka naredna identicna aktivnost,
-    bez obzira da li je uspjesna ili ne,
-    moze biti dodana jedino ako je proslo najmanje 30 dana od izvrsenja prethodne. Onemoguciti dodavanje aktivnosti
-    uspjesno polozenoj kategoriji.*/
+    if (_datumPolaganja != nullptr) return false;
+
     for (int i = 0; i < _trenutnoIzvrsenihAktivnosti; i++)
     {
-        if (*_listaIzvrsenihAktivnosti[i]._vrsta == vrsta)
+        bool identicanDatum = datumPolaganja->DatumUDane() == _listaIzvrsenihAktivnosti[i]._datumIzvrsenja.DatumUDane();
+        bool identicnaVrsta = *_listaIzvrsenihAktivnosti[i]._vrsta == vrsta;
+        bool prolaznaOcjena = _listaIzvrsenihAktivnosti[i]._ocjena > 2;
+
+        if (identicanDatum && identicnaVrsta && prolaznaOcjena)
+            return false;
+        else if (identicanDatum && identicnaVrsta && !prolaznaOcjena)
+            break;
+
+        if (identicnaVrsta)
         {
             if (datumPolaganja->DatumUDane() - _listaIzvrsenihAktivnosti[i]._datumIzvrsenja.DatumUDane() < 30)
                 return false;
@@ -246,9 +249,6 @@ float VozackaKategorija::PretragaRekrzivno(const char * parametar, int i, int br
 
 bool Kandidat::DodajKategoriju(VozackaKategorija kategorija)
 {
-    //Pretpostavka je da se kategorije moraju polagati po redoslijedu tj. ne smije se dozvoliti dodavanje kategorije C 
-    //ukoliko prethodno nisu uspjesno polozene kategorije B i C. Za provjeru ispunjenosti preduslova dodavanja nove kategorije, 
-    //unutar funkcije DodajKategoriju, kreirati lambda funkciju.
     auto provjeriKategoriju = [=]()
     {
         for (int i = 0; i < maxKategorija; i++)

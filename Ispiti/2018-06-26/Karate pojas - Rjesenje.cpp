@@ -19,7 +19,7 @@ struct Datum
         _godina = new int(g);
     }
     void Ispis() { cout << *_dan << "/" << *_mjesec << "/" << *_godina << endl; }
-    void Dealociraj() { delete _dan; delete _mjesec; delete _godina; }
+    void Dealociraj() { delete _dan; delete _mjesec; delete _godina;}
     int DatumUDane() { return *_godina * 365 + *_mjesec * 30 + *_dan;}
 };
 
@@ -80,7 +80,7 @@ struct KaratePojas
     }
     void Ispis()
     {
-        _datumPolaganja->Ispis();
+        if(_datumPolaganja != nullptr) _datumPolaganja->Ispis();
         cout << pojasIspis[int(_pojas)] << endl;
         for (size_t i = 0; i < _trenutnoIzvrsenihAktivnosti; i++)
             _listaIzvrsenihAktivnosti[i].Ispis();
@@ -126,11 +126,16 @@ bool KaratePojas::DodajIzvrsenuAktivnost(Aktivnost * aktivnost)
 
     for (int i = _trenutnoIzvrsenihAktivnosti - 1; i >= 0; i--)
     {
-        /*Identicna aktivnost se moze dodati jedino u slucaju kada je prethodna (identivna aktivnost po vrsti i datumu izvrsenja)
-        imala ocjenu manju od 6.
-        Nije uradeno jer nema smisla da datumi budu jednaki i da se doda aktivnost ako je prethodna manja od 6 a da se
-        kasnije bez obzira na ocjenu dodaje aktivnost samo ako je proslo 15 dana od prethodne aktivnosti identicne vrste*/
-        if (*_listaIzvrsenihAktivnosti[i]._vrsta == *aktivnost->_vrsta)
+        bool identicanDatum = aktivnost->_datumIzvrsenja.DatumUDane() == _listaIzvrsenihAktivnosti[i]._datumIzvrsenja.DatumUDane();
+        bool identicnaVrsta = *_listaIzvrsenihAktivnosti[i]._vrsta == *aktivnost->_vrsta;
+        bool prolaznaOcjena = _listaIzvrsenihAktivnosti[i]._ocjena > 5;
+
+        if (identicanDatum && identicnaVrsta && prolaznaOcjena)
+            return false;
+        else if (identicanDatum && identicnaVrsta && !prolaznaOcjena)
+            break;
+
+        if (identicnaVrsta)
         {
             if (aktivnost->_datumIzvrsenja.DatumUDane() - _listaIzvrsenihAktivnosti[i]._datumIzvrsenja.DatumUDane() >= 15)
                 break;
@@ -204,13 +209,6 @@ void KaratePojas::Sortiraj()
 }
 bool KaratePojas::DaLiJePolozen()
 {
-    /* Karate pojas zahtijeva uspjesnu realizaciju svih planiranih aktivnosti, a one se za jedan povecavaju sa svakim novim pojasom, npr.
-    zuti pojas: 1 x tehnika, 1 x kata, 1 x borba;	narandzasti pojas: 2 x tehnika, 2 x kata, 2 x borba; i td...
-    Funkcija vraca false u slucaju da: su kandidatu u listu aktivnosti evidentirane tri negativno ocijenjene identicne vrste aktivnosti
-    (npr. tri negativne ocjene iz borbi), onda se taj pojas ne moze smatrati uspjesno stecenim
-    i, te ukoliko nedostaje bilo koja od aktivnosti zahtijevanih u okviru tog pojasa.
-    Ukoliko je kandidat uspjesno realizovao sve aktivnost, datum polaganja se postavlja na datum posljednje uspjesno
-    realizovane aktivnosti*/
     int brojacPozitivnih[3] = { 0 }, brojacNegativnih[3] = { 0 };
     for (int i = 0; i < _trenutnoIzvrsenihAktivnosti; i++)
     {
@@ -249,12 +247,6 @@ bool KaratePojas::DaLiJePolozen()
 
 bool Kandidat::DodajPojas(KaratePojas karatePojas)
 {
-    /*
-    Karate pojasevi se moraju dodavati po redoslijedu tj. ne smije se dozvoliti dodavanje zelenog pojasa
-    ukoliko prethodno nije dodan zuti i narandzasti. Za provjeru lokacije
-    (unutar funkcije DodajPojas) na koju ce se dodati novi karate pojas,
-    te da li su nizi pojasevi prethodno dodani koristiti lambda funkciju.
-    */
     auto ProvjeriPojas = [=]()
     {
         for (int i = 0; i < 6; i++)
@@ -280,9 +272,7 @@ bool Kandidat::DodajPojas(KaratePojas karatePojas)
             );
         _pojasevi[int(karatePojas._pojas)]->_trenutnoIzvrsenihAktivnosti = karatePojas._trenutnoIzvrsenihAktivnosti;
         _pojasevi[int(karatePojas._pojas)]->DaLiJePolozen();
-        /*_pojasevi[int(karatePojas._pojas)]->_datumPolaganja = karatePojas._datumPolaganja;
-          kopira pointer, desi se duplo brisanje i korumpira se heap 
-        */
+
         return true;
     }
 
@@ -307,8 +297,6 @@ float KaratePojas::PretragaRekrzivno(char * parametar, int i, int brojac, int su
 
 pair<Pojas, float> Kandidat::GetNajbolji()
 {
-    //Funkcija GetNajbolji vraca par koji sadrzi oznaku i prosjecnu ocjenu (uspjesno okoncanih aktivnosti) pojasa sa najvecim prosjekom
-
     float maxProsjek = 0;
     Pojas pojasMaxProsjeka;
     for (int i = 0; i < 6; i++)
