@@ -222,7 +222,16 @@ bool KaratePojas::DaLiJePolozen()
             return false;
     }
 
-    if (brojacPozitivnih[0] + brojacPozitivnih[1] + brojacPozitivnih[2] == (int(_pojas) + 1) * 3)
+    auto provjeraOcjena = [=]()
+    {
+        int uslovPojasa = int(_pojas) + 1;
+        for (int i = 0; i < 3; i++)
+            if (brojacPozitivnih[i] < uslovPojasa)
+                return false;
+        return true;
+    };
+
+    if (provjeraOcjena())
     {
         for (int i = _trenutnoIzvrsenihAktivnosti - 1; i >= 0; i--)
         {
@@ -247,6 +256,9 @@ bool KaratePojas::DaLiJePolozen()
 
 bool Kandidat::DodajPojas(KaratePojas karatePojas)
 {
+    if (_pojasevi[0] == nullptr && karatePojas._pojas != Zuti)
+        return false;
+
     auto ProvjeriPojas = [=]()
     {
         for (int i = 0; i < 6; i++)
@@ -369,12 +381,14 @@ void main()
     Kandidat jasmin;
     jasmin.Unos("Jasmin Azemovic");
     
+    
     if (jasmin.DodajPojas(pojasZuti))
         cout << "Pojas uspjesno dodan!" << endl;
     if (jasmin.DodajPojas(pojasZeleni))//prethodno je trebao biti dodan narandzasti pojas
         cout << "Pojas uspjesno dodan!" << endl;
     if (jasmin.DodajPojas(pojasNarandzasti))
         cout << "Pojas uspjesno dodan!" << endl;
+    
 
     float prosjek = 0;
     Pojas pojas;

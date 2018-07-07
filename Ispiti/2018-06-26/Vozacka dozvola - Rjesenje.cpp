@@ -208,7 +208,16 @@ bool VozackaKategorija::DaLiJePolozena()
             return false;
     }
 
-    if (brojacPozitivnih[0] + brojacPozitivnih[1] + brojacPozitivnih[2] + brojacPozitivnih[3] == 4 * (int(_kategorija) + 1))
+    auto provjeraBrojaOcjena = [=]()
+    {
+        int brojUslovaPoKategoriji = int(_kategorija) + 1;
+        for (int i = 0; i < 4; i++)
+            if (brojacPozitivnih[i] < brojUslovaPoKategoriji)
+                return false;
+        return true;
+    };
+
+    if (provjeraBrojaOcjena())
     {
         for (int i = _trenutnoIzvrsenihAktivnosti; i >= 0; i--)
         {
@@ -249,6 +258,9 @@ float VozackaKategorija::PretragaRekrzivno(const char * parametar, int i, int br
 
 bool Kandidat::DodajKategoriju(VozackaKategorija kategorija)
 {
+    if (_kategorije[0] == nullptr && kategorija._kategorija != A)
+        return false;
+
     auto provjeriKategoriju = [=]()
     {
         for (int i = 0; i < maxKategorija; i++)
