@@ -1,4 +1,4 @@
-# Programiranj-2
+# Programiranje-2
 
 
 | Tip | Oznaka |
@@ -32,6 +32,6 @@
 | Let | 25.04.2018. | R | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-04-25/Let%20-%20Postavka.txt) | [Rjesenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-04-25/Let%20-%20Rjesenje.cpp)|
 | Projekcija | 25.04.2018. | | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-04-25/Projekcija%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-04-25/Projekcija%20-%20Rjesenje.cpp)|
 | Karate pojas | 26.06.2018. | R, L, PP | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-06-26/Karate%20pojas%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-06-26/Karate%20pojas%20-%20Rjesenje.cpp) |
-| Vozačka dozvola | 26.06.2018. | R, L, PP | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-06-26/Vozacka%20dozvola%20-%20Postavka.txt) | [Rjesenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-06-26/Vozacka%20dozvola%20-%20Rjesenje.cpp) |
-| Printer | 10.07.2018. | R, L, PP | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-07-10/Printer%20A%20-%20Postavka.txt) | |
-| Printer | 10.07.2018. | R, L, PP | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-07-10/Printer%20B%20-%20Postavka.txt) | |
+| Vozačka dozvola | 26.06.2018. | R, L, PP | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-06-26/Vozacka%20dozvola%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-06-26/Vozacka%20dozvola%20-%20Rjesenje.cpp) |
+| Printer | 10.07.2018. | R, L, PP | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-07-10/Printer%20A%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-07-10/Printer%20A%20-%20Rjesenje.txt)|
+| Printer | 10.07.2018. | R, L, PP | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-07-10/Printer%20B%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-07-10/Printer%20B%20-%20Rjesenje.txt) |
