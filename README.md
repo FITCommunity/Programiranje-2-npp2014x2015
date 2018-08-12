@@ -12,13 +12,13 @@
 
 | Naziv | Datum | Tip |  |  |
 | --- | --- | --- | --- | --- |
-| Kocka | 12.04.2016. | | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-04-12/Kocka%20-%20Postavka.txt) | |
+| Kocka | 12.04.2016. | | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-04-12/Kocka%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-04-12/Kocka%20-%20Rjesenje.cpp)|
 | Artikli  | 19.06.2016. | R, TF | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-06-19/Artlikli%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-06-19/Artikli%20-%20Rjesenje.cpp) |
 | Izostanci | 19.06.2016. | R, TF | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-06-19/Izostanci%20-%20Postavka.txt) ||
 | Izbori | 14.07.2016. | R, BF | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-07-14/Izbori%20-%20Postavka.txt)||
 | Obaveze na predmetu | 14.07.2016. | R, BF | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-07-14/Obaveze%20na%20predmetu%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-07-14/Obaveze%20na%20predmetu%20-%20Rjesenje.cpp)|
 | Kursevi | 31.08.2016. | R | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-08-31/Kursevi%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-08-31/Kursevi%20-%20Rjesenje.cpp) |
-| Razredi i predmeti | 31.08.2016. | R | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-08-31/Razredi%20i%20predmeti%20-%20Postavka.txt) | |
+| Razredi i predmeti | 31.08.2016. | R | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-08-31/Razredi%20i%20predmeti%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-08-31/Razredi%20i%20predmeti%20-%20Rjesenje.cpp) |
 | Obaveze na predmetu | 10.10.2016. | R | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2016-10-10/Obaveze%20na%20predmetu%20-%20Postavka.txt) | |
 | Printer | 06.02.2017 | R | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2017-02-06/Printer%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2017-02-06/Printer%20-%20Rjesenje.cpp)|
 | Kviz | 11.04.2017 | | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2017-04-11/Kviz%20-%20Postavka.txt) | |
