@@ -37,3 +37,5 @@
 | Printer | 10.07.2018. | R, L, PP | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-07-10/Printer%20B%20-%20Postavka.txt) | [Rješenje](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-07-10/Printer%20B%20-%20Rjesenje.cpp) |
 | Zapisnici | 31.08.2018. | L | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-08-31/Zapisnici%20-%20Postavka.txt) |  |
 | Prijemni Ispit | 31.08.2018. | L | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-08-31/Prijemni%20Ispit%20-%20Postavka.txt) |  |
+| Završni rad | 14.09.2018. | | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-09-14/Zavrsni%20Rad%20A%20-%20Postavka.txt) | |
+| Završni rad | 14.09.2018. | | [Postavka](https://github.com/FITCommunity/Programiranje-2/blob/master/Ispiti/2018-09-14/Zavrsni%20Rad%20B%20-%20Postavka.txt) | |
